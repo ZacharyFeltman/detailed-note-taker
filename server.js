@@ -29,6 +29,25 @@ server.post('/api/notes', (req, res) => {
     })
 })
 
+server.delete('/api/notes/:id', (req, res) => {
+    var noteId = req.params.id
+    fs.readFile('./db/db.json', 'utf8', function(err, data) {
+        notes = [].concat(JSON.parse(data))
+        let noteIndex = null
+        for (let i = 0; i < notes.length; i++) {
+            let note = notes[i]
+            if (note.id === noteId) {
+                noteIndex = i
+            }
+        }
+        if (noteIndex)
+            notes.splice(noteIndex, 1)
+        fs.writeFile('./db/db.json', JSON.stringify(notes), function(err,data) {
+            res.send("success")
+        })
+    })
+})
+
 server.get('/notes', (req, res) => {
     res.sendFile(path.resolve('public/notes.html'));
   });
