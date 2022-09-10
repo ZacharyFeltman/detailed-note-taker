@@ -4,7 +4,7 @@ const fs = require('fs');
 const {v4: uuidv4} = require('uuid');
 
 const server = express()
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 
 server.use(express.static('public'))
 server.use(express.urlencoded({ extended: true }));
